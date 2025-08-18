@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,19 +13,96 @@ namespace RestaurantManagerSystem
 {
     public partial class ForgotPass: Form
     {
+
+        //using the server that u are using
+        private string connectionString = "Server=WINDOWS-PC;Database=Restaurant;Trusted_Connection=True";
         public ForgotPass()
         {
             InitializeComponent();
             //If u wanna add sthing into the combobox, you can do it here
-            role_comboBox.Items.Add("Manager");
-            role_comboBox.Items.Add("Waiter");
-            role_comboBox.Items.Add("Chef");
+      
         }
 
 
         private void role_comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void ForgotPass_Load(object sender, EventArgs e)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT *  FROM VaiTro";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    try
+                    {
+                        conn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        role_comboBox.Items.Clear(); // Clear existing items
+                        while (reader.Read())
+                        {
+                            string role = reader["Name"].ToString();
+                            role_comboBox.Items.Add(role);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occurred: " + ex.Message);
+                    }
+                }
+
+            }
+        }
+
+        private void submit_bttn_Click(object sender, EventArgs e)
+        {
+            string sdt = sdt_txtbox.Text.Trim();
+            string empid = Id_txtbox.Text.Trim();
+            string role = role_comboBox.SelectedItem?.ToString();
+
+            if(string.IsNullOrEmpty(sdt) || string.IsNullOrEmpty(empid) || string.IsNullOrEmpty(role))
+            {
+                MessageBox.Show("Please fill in all fields.");
+                return;
+            }
             
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM Employee AS A JOIN VaiTro AS B ON A.RoleID = B.RoleID";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@EmpID", empid);
+                    cmd.Parameters.AddWithValue("@SDT", sdt);
+                    
+                   string roleParam = role == "Manager" ? "Manager" :
+                                       role == "Waiter" ? "Waiter" :
+                                       role == "Chef" ? "Chef" : "Admin";
+
+                    cmd.Parameters.AddWithValue("@Role", roleParam);
+
+                    try
+                    {
+                        conn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            // User exists, proceed to reset password
+                            MessageBox.Show("User found! You can now reset your password.");
+                            // Here you can add logic to reset the password
+                        }
+                        else
+                        {
+                            MessageBox.Show("No user found with the provided details.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occurred: " + ex.Message);
+                    }
+                }
+            }
         }
     }
 }
