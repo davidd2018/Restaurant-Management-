@@ -38,10 +38,6 @@ namespace RestaurantManagerSystem
                 return;
             }
 
-            // Create a connection string from the configuration file
-            // It reads the connection string named "RestaurantManagerSystem.Properties.Settings.RestaurantManagerSystemConnectionString" ++ REMEMBER THIS BROTHER ++
-           
-
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "SELECT * FROM Account WHERE AccID = @AccID AND Password = @Password";
