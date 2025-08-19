@@ -29,10 +29,10 @@ namespace RestaurantManagerSystem
 
         private void button1_Click(object sender, EventArgs e) //I changed the name of the button to "Login_bttn" in the designer file 
         {
-            string email = UserID_txtbox.Text.Trim();// Use trim to remove all leading and trailing whitespaces
+            string empid = UserID_txtbox.Text.Trim();// Use trim to remove all leading and trailing whitespaces
             string password = Password_txt.Text.Trim();
 
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(empid) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Please enter both email and password.");
                 return;
@@ -40,10 +40,11 @@ namespace RestaurantManagerSystem
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Account WHERE AccID = @AccID AND Password = @Password";
+                string query = "SELECT A.AccID, C.EmpID,D.RoleID,D.Name,A.Password FROM Account AS A JOIN AccountData AS B ON A.AccID = B.AccID JOIN Employee AS C ON B.Empid = C.Empid JOIN VaiTro AS D ON B.Roleid = D.Roleid" +
+                                " WHERE B.Empid = @empid AND A.Password = @Password";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@AccID", email);
+                    cmd.Parameters.AddWithValue("@empid", empid);
                     cmd.Parameters.AddWithValue("@Password", password);
                     try
                     {
@@ -83,7 +84,7 @@ namespace RestaurantManagerSystem
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT AccID FROM Account";
+                string query = "SELECT Empid FROM AccountData";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     try
@@ -93,8 +94,8 @@ namespace RestaurantManagerSystem
                         while (reader.Read())
                         {
                             // Assuming AccID is a string, you can adjust the type as needed
-                            string accId = reader["AccID"].ToString();
-                            dataGridView1.Rows.Add(accId);
+                            string empid = reader["Empid"].ToString();
+                            dataGridView1.Rows.Add(empid);
                         }
                     }
                     catch (Exception ex)
