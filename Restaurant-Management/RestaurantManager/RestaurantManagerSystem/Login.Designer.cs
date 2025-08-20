@@ -38,7 +38,8 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.Login_bttn = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.AccID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EmpID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,6 +61,7 @@
             this.Password_txt.Name = "Password_txt";
             this.Password_txt.Size = new System.Drawing.Size(173, 20);
             this.Password_txt.TabIndex = 2;
+            this.Password_txt.TextChanged += new System.EventHandler(this.Password_txt_TextChanged);
             // 
             // label1
             // 
@@ -119,17 +121,23 @@
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.AccID});
+            this.EmpID,
+            this.pass});
             this.dataGridView1.Location = new System.Drawing.Point(336, 34);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(452, 404);
             this.dataGridView1.TabIndex = 8;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // AccID
+            // EmpID
             // 
-            this.AccID.HeaderText = "AccID";
-            this.AccID.Name = "AccID";
+            this.EmpID.HeaderText = "EmpID";
+            this.EmpID.Name = "EmpID";
+            // 
+            // pass
+            // 
+            this.pass.HeaderText = "Password";
+            this.pass.Name = "pass";
             // 
             // Login
             // 
@@ -163,7 +171,8 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Button Login_bttn;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AccID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EmpID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pass;
     }
 }
 

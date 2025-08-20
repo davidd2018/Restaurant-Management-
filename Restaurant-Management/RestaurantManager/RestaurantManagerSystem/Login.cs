@@ -25,6 +25,8 @@ namespace RestaurantManagerSystem
         {
            ForgotPass forgotpass = new ForgotPass();
            forgotpass.ShowDialog();
+            this.Hide(); // Hide the current form
+
         }
 
         private void button1_Click(object sender, EventArgs e) //I changed the name of the button to "Login_bttn" in the designer file 
@@ -44,8 +46,7 @@ namespace RestaurantManagerSystem
                                 " WHERE B.Empid = @empid AND A.Password = @Password";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@empid", empid);
-                    cmd.Parameters.AddWithValue("@Password", password);
+                    
                     try
                     {
                         conn.Open();
@@ -82,28 +83,42 @@ namespace RestaurantManagerSystem
 
         private void Login_Load(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query = "SELECT Empid FROM AccountData";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    try
-                    {
-                        conn.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            // Assuming AccID is a string, you can adjust the type as needed
-                            string empid = reader["Empid"].ToString();
-                            dataGridView1.Rows.Add(empid);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("An error occurred: " + ex.Message);
-                    }
-                }
-            }
+            //+++++ Here just to test if the connection to the database is working +++++ //
+
+
+            //using (SqlConnection conn = new SqlConnection(connectionString))
+            //{
+            //    string query = "\r\nSELECT A.Empid, C.Password FROM AccountData as A \r\njoin AccountData as B on A.AccID = B.AccID\r\njoin Account as C on B.AccID = C.AccID";
+            //    using (SqlCommand cmd = new SqlCommand(query, conn))
+            //    {
+            //        try
+            //        {
+            //            conn.Open();
+            //            SqlDataReader reader = cmd.ExecuteReader();
+            //            while (reader.Read())
+            //            {
+            //                // Assuming AccID is a string, you can adjust the type as needed
+            //                string empid = reader["Empid"].ToString();
+            //                string password = reader["Password"].ToString();
+            //                dataGridView1.Rows.Add(empid);
+
+            //                //when change to "count-1" it will add the last row of the datagridview
+            //                //and when change to "count-2" it will add the second last row of the datagridview
+            //                //++ REMEMBER TO CHANGE THE COLUMN INDEX IF YOU ADD MORE COLUMNS ++
+            //                dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[1].Value = password; // Assuming the second column is for Password
+            //            }
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            MessageBox.Show("An error occurred: " + ex.Message);
+            //        }
+            //    }
+            //}
+        }
+
+        private void Password_txt_TextChanged(object sender, EventArgs e)
+        {
+            Password_txt.UseSystemPasswordChar = true; // This will hide the password characters
         }
     }
 }

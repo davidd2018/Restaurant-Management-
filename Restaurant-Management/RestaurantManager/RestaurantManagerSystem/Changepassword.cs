@@ -16,14 +16,13 @@ namespace RestaurantManagerSystem
 
         //using the server that u are using
         private string connectionString = "Server=WINDOWS-PC;Database=Restaurant;Trusted_Connection=True";
+        
         public ForgotPass()
         {
             InitializeComponent();
             //If u wanna add sthing into the combobox, you can do it here
       
         }
-
-
         private void role_comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -62,7 +61,16 @@ namespace RestaurantManagerSystem
             string empid = Id_txtbox.Text.Trim();
             string role = role_comboBox.SelectedItem?.ToString();
 
-            if(string.IsNullOrEmpty(sdt) || string.IsNullOrEmpty(empid) || string.IsNullOrEmpty(role))
+            //Here i use Dictionary to store the values that i will use later in the SubmitChangePass form
+            //So that the EmpID will be passed to the SubmitChangePass form
+            Dictionary<string, string> value = new Dictionary<string, string> 
+            {
+                {"SDT", sdt },
+                { "EmpID", empid },
+                { "Role", role }
+            };
+
+            if (string.IsNullOrEmpty(sdt) || string.IsNullOrEmpty(empid) || string.IsNullOrEmpty(role))
             {
                 MessageBox.Show("Please fill in all fields.");
                 return;
@@ -70,17 +78,17 @@ namespace RestaurantManagerSystem
             
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Employee AS A JOIN VaiTro AS B ON A.RoleID = B.RoleID";
+                string query = "select B.EmpID, B.SDT " +
+                                "from AccountData as A join Employee as B on A.EmpID = B.EmpID " +
+                                "join VaiTro as C on A.RoleID = C.RoleID " +
+                                "where SDT = @SDT and A.EmpID = @EmpID and C.Name = @Role";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@EmpID", empid);
                     cmd.Parameters.AddWithValue("@SDT", sdt);
                     
-                   string roleParam = role == "Manager" ? "Manager" :
-                                       role == "Waiter" ? "Waiter" :
-                                       role == "Chef" ? "Chef" : "Admin";
 
-                    cmd.Parameters.AddWithValue("@Role", roleParam);
+                    cmd.Parameters.AddWithValue("@Role", role);
 
                     try
                     {
@@ -91,6 +99,10 @@ namespace RestaurantManagerSystem
                             // User exists, proceed to reset password
                             MessageBox.Show("User found! You can now reset your password.");
                             // Here you can add logic to reset the password
+                            
+                            SubmitChangePass changePassForm = new SubmitChangePass(value);
+                            changePassForm.Show();
+                            Close(); // Close the current form
                         }
                         else
                         {
