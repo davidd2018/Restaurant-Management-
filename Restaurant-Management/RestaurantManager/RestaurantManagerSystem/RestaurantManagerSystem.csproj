@@ -69,6 +69,18 @@
     <Compile Include="SubmitChangePass.Designer.cs">
       <DependentUpon>SubmitChangePass.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Employee\Feature\AddFoodDrinkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Employee\Feature\AddFoodDrinkForm.Designer.cs">
+      <DependentUpon>AddFoodDrinkForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Employee\main_employee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Employee\main_employee.Designer.cs">
+      <DependentUpon>main_employee.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Changepassword.resx">
       <DependentUpon>Changepassword.cs</DependentUpon>
     </EmbeddedResource>
@@ -86,6 +98,12 @@
     </Compile>
     <EmbeddedResource Include="SubmitChangePass.resx">
       <DependentUpon>SubmitChangePass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Employee\Feature\AddFoodDrinkForm.resx">
+      <DependentUpon>AddFoodDrinkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Employee\main_employee.resx">
+      <DependentUpon>main_employee.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
