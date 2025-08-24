@@ -84,27 +84,52 @@ namespace RestaurantManagerSystem.View.Employee.Feature
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                
-                string query = "SELECT name FROM Category";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+
+                string querry = "select * from Category ";
+
+                using (SqlCommand cmd = new SqlCommand(querry, conn))
                 {
                     try
                     {
                         conn.Open();
                         SqlDataReader reader = cmd.ExecuteReader();
-                        type_cmbbox.Items.Clear(); // Clear existing items
+                        category_cmbbox.Items.Clear(); // Clear existing items
                         while (reader.Read())
                         {
-                           string category = reader["name"].ToString();
-                            type_cmbbox.Items.Add(category);
+                            string category = reader["Name"].ToString();
+                            category_cmbbox.Items.Add(category);
                         }
+
+                        //Every time after using a SqlDataReader, close it before executing another command
+                        reader.Close(); // Close the reader before executing another command
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("An error occurred: " + ex.Message);
                     }
+
+                    string querry2 = "select * from Type ";
+                    using (SqlCommand cmd2 = new SqlCommand(querry2, conn))
+                    {
+                        try
+                        {
+                            
+                            SqlDataReader reader2 = cmd2.ExecuteReader();
+                            type_cmbbox.Items.Clear(); // Clear existing items
+                            while (reader2.Read())
+                            {
+                                string type = reader2["Name"].ToString();
+                                type_cmbbox.Items.Add(type);
+                            }
+                            reader2.Close(); // Close the reader before executing another command
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("An error occurred: " + ex.Message);
+                        }
+                    }
                 }
-            }
+            } 
         }
 
         private void button1_Click_1(object sender, EventArgs e)

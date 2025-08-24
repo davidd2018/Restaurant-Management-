@@ -91,7 +91,7 @@ namespace RestaurantManagerSystem
                                 {
                                     main_employee mainEmployeeForm = new main_employee(value);
                                     mainEmployeeForm.Show();
-                                    Close();
+                                    
                                 }
                                 else
                                 {
@@ -125,6 +125,9 @@ namespace RestaurantManagerSystem
 
         private void Login_Load(object sender, EventArgs e)
         {
+
+
+
             //+++++ Here just to test if the connection to the database is working +++++ //
 
 
@@ -166,6 +169,11 @@ namespace RestaurantManagerSystem
         private void UserID_txtbox_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void Login_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
         }
     }
 }

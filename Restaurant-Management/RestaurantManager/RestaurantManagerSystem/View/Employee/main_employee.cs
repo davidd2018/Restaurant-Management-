@@ -33,7 +33,7 @@ namespace RestaurantManagerSystem.View.Employee
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "select A.FoodDrinkID,B.Name, C.Name as N'Loại món', D.Name as N'Nhóm món'\r\nfrom Menu as A\r\njoin FoodDrink as B on A.FoodDrinkID = B.FoodDrinkID\r\njoin Type as C on B.TypeID = C.TypeID\r\njoin Category as D on B.CateID = D.CateID";
+                string query = "SELECT  Distinct\r\n    A.FoodDrinkID,\r\n    B.Name,\r\n    C.Name,\r\n    D.Name,\r\n    A.Price\r\nFROM Menu AS A\r\nJOIN FoodDrink AS B ON A.FoodDrinkID = B.FoodDrinkID\r\nJOIN Category AS C ON B.CateID = C.CateID\r\nJOIN Type AS D ON D.TypeID = D.TypeID;\r\n";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     try
@@ -42,16 +42,18 @@ namespace RestaurantManagerSystem.View.Employee
                         SqlDataReader reader = command.ExecuteReader();
                         while (reader.Read())
                         {
-                            // Assuming you have columns named "FoodID", "FoodName", "FoodDrink", "Type", and "Price" in your DataGridView
-                            string id = reader["FoodID"].ToString();
-                            string name = reader["FoodName"].ToString();
-                            string fooddrink = reader["FoodDrink"].ToString();
-                            string type = reader["Type"].ToString();
+                            // Assuming you have columns named "FoodID", "Name", "FoodDrink", "Type", and "Price" in your DataGridView
+                            string id = reader["FoodDrinkID"].ToString();
+                            string name = reader["Name"].ToString();
+                            string fooddrink_name = reader["Name"].ToString();
+                            string cate_name = reader["Name"].ToString();
+                            string type_name = reader["Name"].ToString();
+                            
                             string price = (decimal)reader["Price"] + " VND";
                             dataGridView1.Rows.Add(id);
                             dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[1].Value = name;
-                            dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[2].Value = fooddrink;
-                            dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[3].Value = type;
+                            dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[2].Value = fooddrink_name;
+                            dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[3].Value = type_name;
                             dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[4].Value = price;
                         }
                     }
