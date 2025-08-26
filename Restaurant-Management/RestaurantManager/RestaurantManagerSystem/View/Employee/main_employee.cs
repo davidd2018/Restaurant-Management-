@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestaurantManagerSystem.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,7 @@ namespace RestaurantManagerSystem.View.Employee
     {
 
         private string connectionString = "Server=WINDOWS-PC;Database=Restaurant;Trusted_Connection=True";
+        private List<FoodDrink> menuList = new List<FoodDrink>();
 
         private Dictionary<string, string> value;
 
@@ -80,6 +82,12 @@ namespace RestaurantManagerSystem.View.Employee
             roleToolStripMenuItem.Text = value["EmpID"];
         }
 
+        private bool ItemExists(string name)
+        {
+            return menuList.Any(item => item.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+
+
         private void add_bttn_Click(object sender, EventArgs e)
         {
             Feature.AddFoodDrinkForm addFoodDrinkForm = new Feature.AddFoodDrinkForm();
@@ -114,6 +122,12 @@ namespace RestaurantManagerSystem.View.Employee
         private void fooddrink_cmbbox_SelectedIndexChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void thêmTàiKhoảnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Register registerForm = new Register();
+            registerForm.ShowDialog();
         }
     }
 }
