@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestaurantManagerSystem.View.Employee;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -117,6 +118,10 @@ namespace RestaurantManagerSystem
 
                     transaction.Commit();//SAVE all inserts permanently to the database
                     MessageBox.Show("Register account successfully!");
+                    main_employee mainEmpForm = new main_employee();
+                    mainEmpForm.Show();
+                    
+
 
                     name_txtbox.Clear();
                     sdt_txtbox.Clear();

@@ -41,11 +41,13 @@
             this.sdt_txtbox = new System.Windows.Forms.TextBox();
             this.name_txtbox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.addaccount_bttn);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.role_cmbbox);
@@ -166,6 +168,15 @@
             this.label6.TabIndex = 1;
             this.label6.Text = "Register";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(3, 194);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(60, 36);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Return";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // Register
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -198,5 +209,6 @@
         private System.Windows.Forms.TextBox password_txtbox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button addaccount_bttn;
+        private System.Windows.Forms.Button button1;
     }
 }
