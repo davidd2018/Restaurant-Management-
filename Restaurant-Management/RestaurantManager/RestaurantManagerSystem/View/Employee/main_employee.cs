@@ -124,7 +124,7 @@ namespace RestaurantManagerSystem.View.Employee
                     using (SqlCommand countCmd = new SqlCommand(countQuery, conn))
                     {
                         employeeCount = (int)countCmd.ExecuteScalar();//ExecuteScalar is used to retrieve a single value from the database like COUNT, SUM, AVG
-                        sumemp_txtbox.Text = employeeCount.ToString();
+                        sumemp_txtbox.Text = employeeCount.ToString();                    
                     }
                 }
 
@@ -143,17 +143,18 @@ namespace RestaurantManagerSystem.View.Employee
             }
         }
 
-        private void loadDataGridView()
+        private void UpdateEmpCount()
         {
-            
+            int employeeCount = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string accountQuery = "select Distinct E.EmpID, E.Name as EmpName, SDT, V.Name as RoleName, Gmail from Employee as E\r\njoin AccountData as A on E.EmpID = A.EmpID\r\njoin VaiTro as V on A.RoleID = V.RoleID\r\njoin Account as Acc on A.AccID = Acc.AccID";
-                SqlDataAdapter adapter = new SqlDataAdapter(accountQuery, conn);
-                DataTable dataTable = new DataTable();
-                adapter.Fill(dataTable);
-                dataGridView2.DataSource = dataTable;
+                string countQuery = "SELECT COUNT(DISTINCT EmpID) AS EmployeeCount FROM Employee";
+                using (SqlCommand countCmd = new SqlCommand(countQuery, conn))
+                {
+                    employeeCount = (int)countCmd.ExecuteScalar();//ExecuteScalar is used to retrieve a single value from the database like COUNT, SUM, AVG
+                    sumemp_txtbox.Text = employeeCount.ToString();
+                }
             }
         }
         
@@ -230,24 +231,51 @@ namespace RestaurantManagerSystem.View.Employee
 
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-                
-        }
+       
 
-        private void reload_bttn_Click(object sender, EventArgs e)
-        {
-           loadDataGridView();
-        }
-
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-           
-        }
+   
+       
 
         private void delete_bttn_Click(object sender, EventArgs e)
         {
+            DataGridViewRow row = new DataGridViewRow();
+            row = dataGridView2.Rows[selectedRow];
 
+            string empID = empid_txtbox.Text;
+            string name = name_txtbox.Text;
+            string sdt = sdt_txtbox.Text;
+            string mail = mail_txtbox.Text;
+            string role = role_cmbbox.Text;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string deleteQuery = "DELETE FROM AccountData WHERE EmpID = @empID;\r\n" +
+                                     "DELETE FROM Account WHERE AccID = (SELECT AccID FROM AccountData WHERE EmpID = @empID);\r\n" +
+                                     "DELETE FROM Employee WHERE EmpID = @empID;";
+                using (SqlCommand cmd = new SqlCommand(deleteQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@empID", empID);
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Employee deleted successfully.");
+                        //Remove the deleted row from the DataGridView
+                        dataGridView2.Rows.RemoveAt(selectedRow);
+                        //Clear the textboxes after deletion
+                        empid_txtbox.Clear();
+                        name_txtbox.Clear();
+                        sdt_txtbox.Clear();
+                        mail_txtbox.Clear();
+                        role_cmbbox.SelectedIndex = -1; // Deselect combobox
+                        UpdateEmpCount();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Deletion failed. Please try again.");
+                    }
+                }
+            }
         }
 
         private void edit_bttn_Click(object sender, EventArgs e)
@@ -324,40 +352,10 @@ namespace RestaurantManagerSystem.View.Employee
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void sumemp_txtbox_TextChanged(object sender, EventArgs e)
         {
-            selectedRow = dataGridView2.CurrentCell.RowIndex;
-
-            string result = MessageBox.Show("Bạn có thật sự muốn xóa dữ liệu này?", "Confirmation", MessageBoxButtons.YesNo).ToString();
-            if (result == "Yes")
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    string empID = empid_txtbox.Text;
-                    string deleteQuery = "DELETE FROM AccountData WHERE EmpID = @empID\r\n" +
-                                         "DELETE FROM Account WHERE AccID = (SELECT AccID FROM AccountData WHERE EmpID = @empID)\r\n" +
-                                         "DELETE FROM Employee WHERE EmpID = @empID";
-                    using (SqlCommand cmd = new SqlCommand(deleteQuery, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@empID", empID);
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        if (rowsAffected > 0)
-                        {
-                            MessageBox.Show("Employee deleted successfully.");
-                            dataGridView2.Rows.RemoveAt(selectedRow);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Deletion failed. Please try again.");
-                        }
-                    }
-                }
-            }
-            else
-            {
-                return;
-            }
+          
         }
     }
 }
+
