@@ -21,6 +21,7 @@ namespace RestaurantManagerSystem
         public Login()
         {
             InitializeComponent();
+            this.AcceptButton = Login_bttn; //meaning press Enter to click the button
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -33,6 +34,8 @@ namespace RestaurantManagerSystem
 
         private void button1_Click(object sender, EventArgs e) //I changed the name of the button to "Login_bttn" in the designer file 
         {
+             
+
             string empid = UserID_txtbox.Text.Trim();// Use trim to remove all leading and trailing whitespaces
             string password = Password_txt.Text.Trim();
 

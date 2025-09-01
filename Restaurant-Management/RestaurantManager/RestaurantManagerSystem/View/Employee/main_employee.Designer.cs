@@ -42,7 +42,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.deletebttn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.add_bttn = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -87,13 +87,13 @@
             this.label16 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.sumemp_txtbox = new System.Windows.Forms.TextBox();
-            this.reload_bttn = new System.Windows.Forms.Button();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.role = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sumemp_txtbox = new System.Windows.Forms.TextBox();
+            this.reload_bttn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -209,7 +209,7 @@
             // 
             this.panel4.Controls.Add(this.label6);
             this.panel4.Controls.Add(this.button3);
-            this.panel4.Controls.Add(this.button2);
+            this.panel4.Controls.Add(this.deletebttn);
             this.panel4.Controls.Add(this.button1);
             this.panel4.Controls.Add(this.add_bttn);
             this.panel4.Controls.Add(this.textBox2);
@@ -250,14 +250,15 @@
             this.button3.Text = "Tìm kiếm";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // deletebttn
             // 
-            this.button2.Location = new System.Drawing.Point(240, 192);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 29);
-            this.button2.TabIndex = 15;
-            this.button2.Text = "Xóa";
-            this.button2.UseVisualStyleBackColor = true;
+            this.deletebttn.Location = new System.Drawing.Point(240, 192);
+            this.deletebttn.Name = "deletebttn";
+            this.deletebttn.Size = new System.Drawing.Size(75, 29);
+            this.deletebttn.TabIndex = 15;
+            this.deletebttn.Text = "Xóa";
+            this.deletebttn.UseVisualStyleBackColor = true;
+            this.deletebttn.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -581,7 +582,6 @@
             this.role_cmbbox.Name = "role_cmbbox";
             this.role_cmbbox.Size = new System.Drawing.Size(153, 21);
             this.role_cmbbox.TabIndex = 12;
-           
             // 
             // name_txtbox
             // 
@@ -659,24 +659,6 @@
             this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             // 
-            // sumemp_txtbox
-            // 
-            this.sumemp_txtbox.Location = new System.Drawing.Point(118, 376);
-            this.sumemp_txtbox.Name = "sumemp_txtbox";
-            this.sumemp_txtbox.Size = new System.Drawing.Size(52, 20);
-            this.sumemp_txtbox.TabIndex = 10;
-            this.sumemp_txtbox.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
-            // 
-            // reload_bttn
-            // 
-            this.reload_bttn.Location = new System.Drawing.Point(791, 40);
-            this.reload_bttn.Name = "reload_bttn";
-            this.reload_bttn.Size = new System.Drawing.Size(75, 23);
-            this.reload_bttn.TabIndex = 3;
-            this.reload_bttn.Text = "Refresh";
-            this.reload_bttn.UseVisualStyleBackColor = true;
-            this.reload_bttn.Click += new System.EventHandler(this.reload_bttn_Click);
-            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.HeaderText = "Mã nhân viên";
@@ -701,6 +683,24 @@
             // 
             this.role.HeaderText = "Vai trò";
             this.role.Name = "role";
+            // 
+            // sumemp_txtbox
+            // 
+            this.sumemp_txtbox.Location = new System.Drawing.Point(118, 376);
+            this.sumemp_txtbox.Name = "sumemp_txtbox";
+            this.sumemp_txtbox.Size = new System.Drawing.Size(52, 20);
+            this.sumemp_txtbox.TabIndex = 10;
+            this.sumemp_txtbox.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
+            // 
+            // reload_bttn
+            // 
+            this.reload_bttn.Location = new System.Drawing.Point(791, 40);
+            this.reload_bttn.Name = "reload_bttn";
+            this.reload_bttn.Size = new System.Drawing.Size(75, 23);
+            this.reload_bttn.TabIndex = 3;
+            this.reload_bttn.Text = "Refresh";
+            this.reload_bttn.UseVisualStyleBackColor = true;
+            this.reload_bttn.Click += new System.EventHandler(this.reload_bttn_Click);
             // 
             // main_employee
             // 
@@ -749,7 +749,7 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button deletebttn;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button add_bttn;
         private System.Windows.Forms.TextBox textBox2;

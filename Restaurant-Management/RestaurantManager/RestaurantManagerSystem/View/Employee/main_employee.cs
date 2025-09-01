@@ -17,7 +17,12 @@ namespace RestaurantManagerSystem.View.Employee
 
         private string connectionString = "Server=WINDOWS-PC;Database=Restaurant;Trusted_Connection=True";
         private List<FoodDrink> menuList = new List<FoodDrink>();
+
+
         int indexRows;
+        
+        
+        int selectedRow;
 
 
         private Dictionary<string, string> value;
@@ -34,7 +39,7 @@ namespace RestaurantManagerSystem.View.Employee
         }
 
         private void main_employee_Load(object sender, EventArgs e)
-        {  
+        {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // This query retrieves Menu data from the joined tables
@@ -60,6 +65,8 @@ namespace RestaurantManagerSystem.View.Employee
                             dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[2].Value = fooddrink_name;
                             dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[3].Value = type_name;
                             dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[4].Value = price;
+
+                            
                         }
                     }
                     catch (Exception ex)
@@ -89,9 +96,6 @@ namespace RestaurantManagerSystem.View.Employee
                             dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[2].Value = sdt;
                             dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[3].Value = gmail;
                             dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[4].Value = role;
-
-
-
                         }
                     }
                 }
@@ -100,21 +104,6 @@ namespace RestaurantManagerSystem.View.Employee
                 //This here to read all roles from database to combobox
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    //string rolequery = "select Name from VaiTro";
-                    //using (SqlCommand cmd = new SqlCommand(rolequery, conn))
-                    //{
-                    //    conn.Open();
-                    //    using (SqlDataReader reader = cmd.ExecuteReader())
-                    //    {
-                    //       while(reader.Read())
-                    //        {
-                    //            role_cmbbox.Items.Add(reader["Name"].ToString());
-                    //        }
-                    //    }
-                    //    conn.Close();
-                    //}
-
-
                     string rolequery = "SELECT RoleID, Name FROM VaiTro"; // adjust column names
                     SqlDataAdapter da = new SqlDataAdapter(rolequery, conn);
                     DataTable dt = new DataTable();
@@ -137,7 +126,20 @@ namespace RestaurantManagerSystem.View.Employee
                         employeeCount = (int)countCmd.ExecuteScalar();//ExecuteScalar is used to retrieve a single value from the database like COUNT, SUM, AVG
                         sumemp_txtbox.Text = employeeCount.ToString();
                     }
-                }         
+                }
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string selecteEmpQuery = "select Distinct E.EmpID, E.Name as EmpName, SDT, V.Name as RoleName, Gmail from Employee as E\r\njoin AccountData as A on E.EmpID = A.EmpID\r\njoin VaiTro as V on A.RoleID = V.RoleID\r\njoin Account as Acc on A.AccID = Acc.AccID";
+                    string searchEmpID = searchbyID_txtbox.Text;
+                    string searchEmpName = name_txtbox.Text;
+                    string searchEmpmail = mail_txtbox.Text;
+                    string searchEmpRole = role_cmbbox.SelectedValue.ToString();
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(selecteEmpQuery, conn);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+                }
             }
         }
 
@@ -155,8 +157,6 @@ namespace RestaurantManagerSystem.View.Employee
             }
         }
         
-
-
 
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -214,7 +214,7 @@ namespace RestaurantManagerSystem.View.Employee
         {
             Register registerForm = new Register();
             registerForm.ShowDialog();
-            Application.Exit();
+            
         }
 
         private void xemTàiKhoảnHiệnTạiToolStripMenuItem_Click(object sender, EventArgs e)
@@ -251,21 +251,65 @@ namespace RestaurantManagerSystem.View.Employee
         }
 
         private void edit_bttn_Click(object sender, EventArgs e)
-        {
+        { 
+            DataGridViewRow row = new DataGridViewRow();
+            row = dataGridView2.Rows[selectedRow];
 
-            DataGridViewRow selectedRow = dataGridView2.Rows[indexRows];
+            string empID = empid_txtbox.Text;
+            string name = name_txtbox.Text;
+            string sdt = sdt_txtbox.Text;
+            string mail = mail_txtbox.Text;
+            string role = role_cmbbox.Text;
 
-            selectedRow.Cells[0].Value = empid_txtbox.Text;
-            selectedRow.Cells[1].Value = name_txtbox.Text;
-            selectedRow.Cells[2].Value = sdt_txtbox.Text;
-            selectedRow.Cells[3].Value = mail_txtbox.Text;
-            selectedRow.Cells[4].Value = role_cmbbox.Text;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string updateQuery = "Update Employee set Name = @name, SDT = @sdt where EmpID = @empID\r\n" +
+                                     "Update Account set Gmail = @gmail where AccID = (select AccID from AccountData where EmpID = @empID)\r\n" +
+                                     "Update AccountData set RoleID = (select RoleID from VaiTro where Name = @role) where EmpID = @empID";
+                using (SqlCommand cmd = new SqlCommand(updateQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@empID", empID);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@sdt", sdt);
+                    cmd.Parameters.AddWithValue("@gmail", mail);
+                    cmd.Parameters.AddWithValue("@role", role);
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Employee information updated successfully.");
+
+                        //This worked but it will add a new row instead of updating the current row
+
+                        //row.Cells[0].Value = empID; 
+                        //row.Cells[1].Value = name;
+                        //row.Cells[2].Value = sdt;
+                        //row.Cells[3].Value = mail;
+                        //row.Cells[4].Value = role;
+
+
+                        //This one will update the current row and not add a new row
+                        //Update the DataGridView to reflect changes
+                        //Show the updated values in the DataGridView right away
+                        dataGridView2.CurrentRow.Cells[0].Value = empID;
+                        dataGridView2.CurrentRow.Cells[1].Value = name;
+                        dataGridView2.CurrentRow.Cells[2].Value = sdt;
+                        dataGridView2.CurrentRow.Cells[3].Value = mail;
+                        dataGridView2.CurrentRow.Cells[4].Value = role;
+
+                        dataGridView2.Refresh();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Update failed. Please check the details and try again.");
+                    }
+                }
+            }
+
+            
+
         }
-
-        
-
-       
-
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -280,6 +324,40 @@ namespace RestaurantManagerSystem.View.Employee
             }
         }
 
-       
+        private void button2_Click(object sender, EventArgs e)
+        {
+            selectedRow = dataGridView2.CurrentCell.RowIndex;
+
+            string result = MessageBox.Show("Bạn có thật sự muốn xóa dữ liệu này?", "Confirmation", MessageBoxButtons.YesNo).ToString();
+            if (result == "Yes")
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string empID = empid_txtbox.Text;
+                    string deleteQuery = "DELETE FROM AccountData WHERE EmpID = @empID\r\n" +
+                                         "DELETE FROM Account WHERE AccID = (SELECT AccID FROM AccountData WHERE EmpID = @empID)\r\n" +
+                                         "DELETE FROM Employee WHERE EmpID = @empID";
+                    using (SqlCommand cmd = new SqlCommand(deleteQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@empID", empID);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Employee deleted successfully.");
+                            dataGridView2.Rows.RemoveAt(selectedRow);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Deletion failed. Please try again.");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
     }
 }
