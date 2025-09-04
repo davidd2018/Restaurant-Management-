@@ -67,11 +67,15 @@
             this.type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.searchByID_bttn = new System.Windows.Forms.Button();
+            this.label17 = new System.Windows.Forms.Label();
+            this.searchID_txtbox = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.search_bttn = new System.Windows.Forms.Button();
             this.addAcount_bttn = new System.Windows.Forms.Button();
             this.edit_bttn = new System.Windows.Forms.Button();
             this.mail_txtbox = new System.Windows.Forms.TextBox();
@@ -87,13 +91,13 @@
             this.label16 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.role = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sumemp_txtbox = new System.Windows.Forms.TextBox();
             this.reload_bttn = new System.Windows.Forms.Button();
+            this.emIDCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sdtCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mailCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.roleCole = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -102,6 +106,7 @@
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -448,6 +453,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.panel5);
             this.tabPage2.Controls.Add(this.label11);
             this.tabPage2.Controls.Add(this.label10);
             this.tabPage2.Controls.Add(this.panel1);
@@ -460,6 +466,42 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Accounts";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.searchByID_bttn);
+            this.panel5.Controls.Add(this.label17);
+            this.panel5.Controls.Add(this.searchID_txtbox);
+            this.panel5.Location = new System.Drawing.Point(20, 310);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(290, 53);
+            this.panel5.TabIndex = 12;
+            // 
+            // searchByID_bttn
+            // 
+            this.searchByID_bttn.Location = new System.Drawing.Point(232, 3);
+            this.searchByID_bttn.Name = "searchByID_bttn";
+            this.searchByID_bttn.Size = new System.Drawing.Size(55, 47);
+            this.searchByID_bttn.TabIndex = 2;
+            this.searchByID_bttn.Text = "Tìm Kiếm";
+            this.searchByID_bttn.UseVisualStyleBackColor = true;
+            this.searchByID_bttn.Click += new System.EventHandler(this.searchByID_bttn_Click);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(24, 20);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(100, 13);
+            this.label17.TabIndex = 1;
+            this.label17.Text = "Nhập mã nhân viên";
+            // 
+            // searchID_txtbox
+            // 
+            this.searchID_txtbox.Location = new System.Drawing.Point(130, 17);
+            this.searchID_txtbox.Name = "searchID_txtbox";
+            this.searchID_txtbox.Size = new System.Drawing.Size(100, 20);
+            this.searchID_txtbox.TabIndex = 0;
             // 
             // label11
             // 
@@ -482,8 +524,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.label9);
-            this.panel1.Controls.Add(this.search_bttn);
             this.panel1.Controls.Add(this.addAcount_bttn);
             this.panel1.Controls.Add(this.edit_bttn);
             this.panel1.Controls.Add(this.mail_txtbox);
@@ -497,10 +539,20 @@
             this.panel1.Controls.Add(this.label14);
             this.panel1.Controls.Add(this.label15);
             this.panel1.Controls.Add(this.label16);
-            this.panel1.Location = new System.Drawing.Point(16, 80);
+            this.panel1.Location = new System.Drawing.Point(20, 80);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(294, 224);
+            this.panel1.Size = new System.Drawing.Size(287, 224);
             this.panel1.TabIndex = 9;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(208, 141);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 17;
+            this.button2.Text = "Clear";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label9
             // 
@@ -511,15 +563,6 @@
             this.label9.Size = new System.Drawing.Size(41, 20);
             this.label9.TabIndex = 16;
             this.label9.Text = "SDT";
-            // 
-            // search_bttn
-            // 
-            this.search_bttn.Location = new System.Drawing.Point(208, 138);
-            this.search_bttn.Name = "search_bttn";
-            this.search_bttn.Size = new System.Drawing.Size(75, 29);
-            this.search_bttn.TabIndex = 15;
-            this.search_bttn.Text = "Tìm kiếm";
-            this.search_bttn.UseVisualStyleBackColor = true;
             // 
             // addAcount_bttn
             // 
@@ -644,43 +687,19 @@
             // 
             // dataGridView2
             // 
+            this.dataGridView2.AllowUserToOrderColumns = true;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4,
-            this.role});
+            this.emIDCol,
+            this.nameCol,
+            this.sdtCol,
+            this.mailCol,
+            this.roleCole});
             this.dataGridView2.Location = new System.Drawing.Point(3, 21);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.Size = new System.Drawing.Size(541, 410);
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Mã nhân viên";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Tên nhân viên";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.HeaderText = "SDT";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "Email";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            // 
-            // role
-            // 
-            this.role.HeaderText = "Vai trò";
-            this.role.Name = "role";
             // 
             // sumemp_txtbox
             // 
@@ -698,6 +717,31 @@
             this.reload_bttn.TabIndex = 3;
             this.reload_bttn.Text = "Refresh";
             this.reload_bttn.UseVisualStyleBackColor = true;
+            // 
+            // emIDCol
+            // 
+            this.emIDCol.HeaderText = "Mã nhân viên";
+            this.emIDCol.Name = "emIDCol";
+            // 
+            // nameCol
+            // 
+            this.nameCol.HeaderText = "Tên nhân viên";
+            this.nameCol.Name = "nameCol";
+            // 
+            // sdtCol
+            // 
+            this.sdtCol.HeaderText = "SDT";
+            this.sdtCol.Name = "sdtCol";
+            // 
+            // mailCol
+            // 
+            this.mailCol.HeaderText = "Email";
+            this.mailCol.Name = "mailCol";
+            // 
+            // roleCole
+            // 
+            this.roleCole.HeaderText = "Vai trò";
+            this.roleCole.Name = "roleCole";
             // 
             // main_employee
             // 
@@ -722,6 +766,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -772,7 +818,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn price;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button search_bttn;
         private System.Windows.Forms.Button delete_bttn;
         private System.Windows.Forms.Button edit_bttn;
         private System.Windows.Forms.Button addAcount_bttn;
@@ -793,10 +838,15 @@
         private System.Windows.Forms.TextBox sumemp_txtbox;
         private System.Windows.Forms.Button reload_bttn;
         private System.Windows.Forms.TextBox mail_txtbox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn role;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox searchID_txtbox;
+        private System.Windows.Forms.Button searchByID_bttn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn emIDCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sdtCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mailCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn roleCole;
     }
 }

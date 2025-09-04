@@ -20,8 +20,8 @@ namespace RestaurantManagerSystem.View.Employee
 
 
         int indexRows;
-        
-        
+
+
         int selectedRow;
 
 
@@ -66,7 +66,7 @@ namespace RestaurantManagerSystem.View.Employee
                             dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[3].Value = type_name;
                             dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[4].Value = price;
 
-                            
+
                         }
                     }
                     catch (Exception ex)
@@ -124,7 +124,7 @@ namespace RestaurantManagerSystem.View.Employee
                     using (SqlCommand countCmd = new SqlCommand(countQuery, conn))
                     {
                         employeeCount = (int)countCmd.ExecuteScalar();//ExecuteScalar is used to retrieve a single value from the database like COUNT, SUM, AVG
-                        sumemp_txtbox.Text = employeeCount.ToString();                    
+                        sumemp_txtbox.Text = employeeCount.ToString();
                     }
                 }
 
@@ -157,7 +157,7 @@ namespace RestaurantManagerSystem.View.Employee
                 }
             }
         }
-        
+
 
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -208,14 +208,14 @@ namespace RestaurantManagerSystem.View.Employee
         }
         private void fooddrink_cmbbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void thêmTàiKhoảnToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Register registerForm = new Register();
             registerForm.ShowDialog();
-            
+
         }
 
         private void xemTàiKhoảnHiệnTạiToolStripMenuItem_Click(object sender, EventArgs e)
@@ -224,17 +224,17 @@ namespace RestaurantManagerSystem.View.Employee
             accountDetailsForm.ShowDialog();
         }
 
-      
+
 
         private void thToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
 
-       
 
-   
-       
+
+
+
 
         private void delete_bttn_Click(object sender, EventArgs e)
         {
@@ -279,7 +279,7 @@ namespace RestaurantManagerSystem.View.Employee
         }
 
         private void edit_bttn_Click(object sender, EventArgs e)
-        { 
+        {
             DataGridViewRow row = new DataGridViewRow();
             row = dataGridView2.Rows[selectedRow];
 
@@ -335,7 +335,7 @@ namespace RestaurantManagerSystem.View.Employee
                 }
             }
 
-            
+
 
         }
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -354,7 +354,78 @@ namespace RestaurantManagerSystem.View.Employee
 
         private void sumemp_txtbox_TextChanged(object sender, EventArgs e)
         {
-          
+
+        }
+
+
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void searchByID_bttn_Click(object sender, EventArgs e)
+        {
+            string searchEmpID = searchID_txtbox.Text.Trim();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "select Distinct A.EmpID, E.Name as EmpName, E.SDT, B.Gmail, V.Name as RoleName " +
+                              "from AccountData as A " +
+                              "join Account as B on A.AccID = B.AccID " +
+                              "join VaiTro as V on A.RoleID = V.RoleID " +
+                              "join Employee as E on A.EmpID = E.EmpID " +
+                              "where A.EmpID like @empID";
+
+                using(SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@empID", "%" + searchEmpID + "%");
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+                    dataGridView2.DataSource = dataTable;
+                }
+            }
+        }
+
+        private void bindingSource1_CurrentChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void searchID_txtbox_TextChanged(object sender, EventArgs e)
+        {
+            string searchEmpID = searchID_txtbox.Text.Trim();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query;
+                SqlCommand cmd;
+
+                if (string.IsNullOrEmpty(searchEmpID))
+                {
+                    // Show all employees if search box is empty
+                    query = "select Distinct A.EmpID, E.Name as EmpName, E.SDT, B.Gmail, V.Name as RoleName " +
+                            "from AccountData as A " +
+                            "join Account as B on A.AccID = B.AccID " +
+                            "join VaiTro as V on A.RoleID = V.RoleID " +
+                            "join Employee as E on A.EmpID = E.EmpID";
+                    cmd = new SqlCommand(query, conn);
+                }
+                else
+                {
+                    // Partial match search
+                    query = "select Distinct A.EmpID as MaNv, E.Name as EmpName, E.SDT, B.Gmail, V.Name as RoleName " +
+                            "from AccountData as A " +
+                            "join Account as B on A.AccID = B.AccID " +
+                            "join VaiTro as V on A.RoleID = V.RoleID " +
+                            "join Employee as E on A.EmpID = E.EmpID " +
+                            "where A.EmpID like @empID";
+                    cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@empID", "%" + searchEmpID + "%");
+                
+                }
+            }
         }
     }
 }
