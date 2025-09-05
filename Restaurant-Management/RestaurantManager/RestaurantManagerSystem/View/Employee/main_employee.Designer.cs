@@ -91,13 +91,13 @@
             this.label16 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.sumemp_txtbox = new System.Windows.Forms.TextBox();
-            this.reload_bttn = new System.Windows.Forms.Button();
             this.emIDCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sdtCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mailCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.roleCole = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sumemp_txtbox = new System.Windows.Forms.TextBox();
+            this.reload_bttn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -687,6 +687,7 @@
             // 
             // dataGridView2
             // 
+            this.dataGridView2.AllowUserToDeleteRows = false;
             this.dataGridView2.AllowUserToOrderColumns = true;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -700,23 +701,6 @@
             this.dataGridView2.Size = new System.Drawing.Size(541, 410);
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
-            // 
-            // sumemp_txtbox
-            // 
-            this.sumemp_txtbox.Location = new System.Drawing.Point(118, 376);
-            this.sumemp_txtbox.Name = "sumemp_txtbox";
-            this.sumemp_txtbox.Size = new System.Drawing.Size(52, 20);
-            this.sumemp_txtbox.TabIndex = 10;
-            this.sumemp_txtbox.TextChanged += new System.EventHandler(this.sumemp_txtbox_TextChanged);
-            // 
-            // reload_bttn
-            // 
-            this.reload_bttn.Location = new System.Drawing.Point(791, 40);
-            this.reload_bttn.Name = "reload_bttn";
-            this.reload_bttn.Size = new System.Drawing.Size(75, 23);
-            this.reload_bttn.TabIndex = 3;
-            this.reload_bttn.Text = "Refresh";
-            this.reload_bttn.UseVisualStyleBackColor = true;
             // 
             // emIDCol
             // 
@@ -742,6 +726,23 @@
             // 
             this.roleCole.HeaderText = "Vai trò";
             this.roleCole.Name = "roleCole";
+            // 
+            // sumemp_txtbox
+            // 
+            this.sumemp_txtbox.Location = new System.Drawing.Point(118, 376);
+            this.sumemp_txtbox.Name = "sumemp_txtbox";
+            this.sumemp_txtbox.Size = new System.Drawing.Size(52, 20);
+            this.sumemp_txtbox.TabIndex = 10;
+            this.sumemp_txtbox.TextChanged += new System.EventHandler(this.sumemp_txtbox_TextChanged);
+            // 
+            // reload_bttn
+            // 
+            this.reload_bttn.Location = new System.Drawing.Point(791, 40);
+            this.reload_bttn.Name = "reload_bttn";
+            this.reload_bttn.Size = new System.Drawing.Size(75, 23);
+            this.reload_bttn.TabIndex = 3;
+            this.reload_bttn.Text = "Refresh";
+            this.reload_bttn.UseVisualStyleBackColor = true;
             // 
             // main_employee
             // 

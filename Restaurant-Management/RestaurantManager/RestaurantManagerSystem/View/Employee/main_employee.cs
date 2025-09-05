@@ -127,19 +127,6 @@ namespace RestaurantManagerSystem.View.Employee
                         sumemp_txtbox.Text = employeeCount.ToString();
                     }
                 }
-
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    string selecteEmpQuery = "select Distinct E.EmpID, E.Name as EmpName, SDT, V.Name as RoleName, Gmail from Employee as E\r\njoin AccountData as A on E.EmpID = A.EmpID\r\njoin VaiTro as V on A.RoleID = V.RoleID\r\njoin Account as Acc on A.AccID = Acc.AccID";
-                    string searchEmpID = searchbyID_txtbox.Text;
-                    string searchEmpName = name_txtbox.Text;
-                    string searchEmpmail = mail_txtbox.Text;
-                    string searchEmpRole = role_cmbbox.SelectedValue.ToString();
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(selecteEmpQuery, conn);
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
-                }
             }
         }
 
@@ -367,65 +354,108 @@ namespace RestaurantManagerSystem.View.Employee
         private void searchByID_bttn_Click(object sender, EventArgs e)
         {
             string searchEmpID = searchID_txtbox.Text.Trim();
-
+            
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "select Distinct A.EmpID, E.Name as EmpName, E.SDT, B.Gmail, V.Name as RoleName " +
+                conn.Open();
+                string searchquery = "select Distinct A.EmpID, E.Name as EmpName, E.SDT, B.Gmail, V.Name as RoleName " +
                               "from AccountData as A " +
                               "join Account as B on A.AccID = B.AccID " +
                               "join VaiTro as V on A.RoleID = V.RoleID " +
                               "join Employee as E on A.EmpID = E.EmpID " +
                               "where A.EmpID like @empID";
 
-                using(SqlCommand cmd = new SqlCommand(query, conn))
+
+                //if the search box not empty, show all employees with partial match
+                using (SqlCommand cmd = new SqlCommand(searchquery, conn))
                 {
                     cmd.Parameters.AddWithValue("@empID", "%" + searchEmpID + "%");
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
-                    dataGridView2.DataSource = dataTable;
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    dataGridView2.Rows.Clear(); // Clear existing rows
+                    while (reader.Read())
+                    {
+                        string empID = reader["EmpID"].ToString();
+                        string empName = reader["EmpName"].ToString();
+                        string sdt = reader["SDT"].ToString();
+                        string gmail = reader["Gmail"].ToString();
+                        string role = reader["RoleName"].ToString();
+                        dataGridView2.Rows.Add(empID);
+                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[1].Value = empName;
+                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[2].Value = sdt;
+                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[3].Value = gmail;
+                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[4].Value = role;
+                    }
+                    reader.Close(); // Close the reader before executing another command
+
+                    if(dataGridView2.Rows.Count == 1)
+                    {
+                        MessageBox.Show("Không tồn tại mã nhân viên này.");
+                    }
                 }
-            }
-        }
 
-        private void bindingSource1_CurrentChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void searchID_txtbox_TextChanged(object sender, EventArgs e)
-        {
-            string searchEmpID = searchID_txtbox.Text.Trim();
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                string query;
-                SqlCommand cmd;
-
-                if (string.IsNullOrEmpty(searchEmpID))
+                if(searchEmpID == null)
                 {
                     // Show all employees if search box is empty
-                    query = "select Distinct A.EmpID, E.Name as EmpName, E.SDT, B.Gmail, V.Name as RoleName " +
+                    string query = "select Distinct A.EmpID, E.Name as EmpName, E.SDT, B.Gmail, V.Name as RoleName " +
                             "from AccountData as A " +
                             "join Account as B on A.AccID = B.AccID " +
                             "join VaiTro as V on A.RoleID = V.RoleID " +
                             "join Employee as E on A.EmpID = E.EmpID";
-                    cmd = new SqlCommand(query, conn);
-                }
-                else
-                {
-                    // Partial match search
-                    query = "select Distinct A.EmpID as MaNv, E.Name as EmpName, E.SDT, B.Gmail, V.Name as RoleName " +
-                            "from AccountData as A " +
-                            "join Account as B on A.AccID = B.AccID " +
-                            "join VaiTro as V on A.RoleID = V.RoleID " +
-                            "join Employee as E on A.EmpID = E.EmpID " +
-                            "where A.EmpID like @empID";
-                    cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@empID", "%" + searchEmpID + "%");
-                
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        dataGridView2.Rows.Clear(); // Clear existing rows
+                        while (reader.Read())
+                        {
+                            string empID = reader["EmpID"].ToString();
+                            string empName = reader["EmpName"].ToString();
+                            string sdt = reader["SDT"].ToString();
+                            string gmail = reader["Gmail"].ToString();
+                            string role = reader["RoleName"].ToString();
+                            dataGridView2.Rows.Add(empID);
+                            dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[1].Value = empName;
+                            dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[2].Value = sdt;
+                            dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[3].Value = gmail;
+                            dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[4].Value = role;
+                        }
+                        reader.Close(); // Close the reader before executing another command
+                    }
                 }
             }
+        }
+        private void searchID_txtbox_TextChanged(object sender, EventArgs e)
+        {
+            //string searchEmpID = searchID_txtbox.Text.Trim();
+
+            //using (SqlConnection conn = new SqlConnection(connectionString))
+            //{
+            //    string query;
+            //    SqlCommand cmd;
+
+            //    if (string.IsNullOrEmpty(searchEmpID))
+            //    {
+            //        // Show all employees if search box is empty
+            //        query = "select Distinct A.EmpID, E.Name as EmpName, E.SDT, B.Gmail, V.Name as RoleName " +
+            //                "from AccountData as A " +
+            //                "join Account as B on A.AccID = B.AccID " +
+            //                "join VaiTro as V on A.RoleID = V.RoleID " +
+            //                "join Employee as E on A.EmpID = E.EmpID";
+            //        cmd = new SqlCommand(query, conn);
+            //    }
+            //    else
+            //    {
+            //        // Partial match search
+            //        query = "select Distinct A.EmpID as MaNv, E.Name as EmpName, E.SDT, B.Gmail, V.Name as RoleName " +
+            //                "from AccountData as A " +
+            //                "join Account as B on A.AccID = B.AccID " +
+            //                "join VaiTro as V on A.RoleID = V.RoleID " +
+            //                "join Employee as E on A.EmpID = E.EmpID " +
+            //                "where A.EmpID like @empID";
+            //        cmd = new SqlCommand(query, conn);
+            //        cmd.Parameters.AddWithValue("@empID", "%" + searchEmpID + "%");
+                
+            //    }
+            //}
         }
     }
 }
