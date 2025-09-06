@@ -461,6 +461,7 @@ namespace RestaurantManagerSystem.View.Employee
 
         internal void RefreshAccountDataGridView()
         {
+            dataGridView2.Rows.Clear(); // Clear existing rows
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
