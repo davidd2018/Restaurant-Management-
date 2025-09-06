@@ -198,12 +198,7 @@ namespace RestaurantManagerSystem.View.Employee
 
         }
 
-        private void thêmTàiKhoảnToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Register registerForm = new Register();
-            registerForm.ShowDialog();
-
-        }
+       
 
         private void xemTàiKhoảnHiệnTạiToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -456,6 +451,39 @@ namespace RestaurantManagerSystem.View.Employee
                 
             //    }
             //}
+        }
+
+        private void addAcount_bttn_Click(object sender, EventArgs e)
+        {
+            Register registerForm = new Register(this);
+            registerForm.ShowDialog();
+        }
+
+        internal void RefreshAccountDataGridView()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string accountQuery = "select Distinct E.EmpID, E.Name as EmpName, SDT, V.Name as RoleName, Gmail from Employee as E\r\njoin AccountData as A on E.EmpID = A.EmpID\r\njoin VaiTro as V on A.RoleID = V.RoleID\r\njoin Account as Acc on A.AccID = Acc.AccID";
+                using (SqlCommand accCmd = new SqlCommand(accountQuery, conn))
+                {
+                    SqlDataReader accReader = accCmd.ExecuteReader();
+                    while (accReader.Read())
+                    {
+                        string empID = accReader["EmpID"].ToString();
+                        string empName = accReader["EmpName"].ToString();
+                        string sdt = accReader["SDT"].ToString();
+                        string gmail = accReader["Gmail"].ToString();
+                        string role = accReader["RoleName"].ToString();
+
+                        dataGridView2.Rows.Add(empID);
+                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[1].Value = empName;
+                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[2].Value = sdt;
+                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[3].Value = gmail;
+                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[4].Value = role;
+                    }
+                }
+            }
         }
     }
 }

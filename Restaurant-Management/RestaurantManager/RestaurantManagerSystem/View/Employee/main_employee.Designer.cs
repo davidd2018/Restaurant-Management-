@@ -31,7 +31,6 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.roleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.thToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.thêmTàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xemTàiKhoảnHiệnTạiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.đăngXuấtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -128,20 +127,12 @@
             // thToolStripMenuItem
             // 
             this.thToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.thêmTàiKhoảnToolStripMenuItem,
             this.xemTàiKhoảnHiệnTạiToolStripMenuItem,
             this.đăngXuấtToolStripMenuItem});
             this.thToolStripMenuItem.Name = "thToolStripMenuItem";
             this.thToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
             this.thToolStripMenuItem.Text = "Thông tin tài khoản";
             this.thToolStripMenuItem.Click += new System.EventHandler(this.thToolStripMenuItem_Click);
-            // 
-            // thêmTàiKhoảnToolStripMenuItem
-            // 
-            this.thêmTàiKhoảnToolStripMenuItem.Name = "thêmTàiKhoảnToolStripMenuItem";
-            this.thêmTàiKhoảnToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.thêmTàiKhoảnToolStripMenuItem.Text = "Thêm tài khoản";
-            this.thêmTàiKhoảnToolStripMenuItem.Click += new System.EventHandler(this.thêmTàiKhoảnToolStripMenuItem_Click);
             // 
             // xemTàiKhoảnHiệnTạiToolStripMenuItem
             // 
@@ -572,6 +563,7 @@
             this.addAcount_bttn.TabIndex = 15;
             this.addAcount_bttn.Text = "Thêm";
             this.addAcount_bttn.UseVisualStyleBackColor = true;
+            this.addAcount_bttn.Click += new System.EventHandler(this.addAcount_bttn_Click);
             // 
             // edit_bttn
             // 
@@ -782,7 +774,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem roleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem thToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem thêmTàiKhoảnToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem xemTàiKhoảnHiệnTạiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem đăngXuấtToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;

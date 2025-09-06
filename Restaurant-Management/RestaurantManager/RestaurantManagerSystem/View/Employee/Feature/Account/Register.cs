@@ -18,9 +18,11 @@ namespace RestaurantManagerSystem
     public partial class Register : Form
     {
         private string connectionString = "Server=WINDOWS-PC;Database=Restaurant;Trusted_Connection=True";
-        public Register()
+        private main_employee _main_Employee;
+        public Register(main_employee mainform)
         {
             InitializeComponent();
+            _main_Employee = mainform;
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -118,9 +120,16 @@ namespace RestaurantManagerSystem
 
                     transaction.Commit();//SAVE all inserts permanently to the database
                     MessageBox.Show("Register account successfully!");
-                    main_employee mainEmpForm = new main_employee();
-                    mainEmpForm.Show();
+                    if(_main_Employee != null)
+                    {
+                        _main_Employee.RefreshAccountDataGridView(); // Call the method to refresh the DataGridView
+                    }
                     
+                    
+                    this.Hide();
+                    this.Close();
+
+
 
 
                     name_txtbox.Clear();

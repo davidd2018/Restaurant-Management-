@@ -17,6 +17,7 @@ namespace RestaurantManagerSystem
     public partial class Login: Form
     {
         private string connectionString = "Server=WINDOWS-PC;Database=Restaurant;Trusted_Connection=True";
+        
 
         public Login()
         {
@@ -26,10 +27,9 @@ namespace RestaurantManagerSystem
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-           ForgotPass forgotpass = new ForgotPass();
-           forgotpass.ShowDialog();
-           this.Hide(); // Hide the current form
-
+            ForgotPass forgotpass = new ForgotPass();
+            forgotpass.ShowDialog();
+            this.Close(); // Hide the current form
         }
 
         private void button1_Click(object sender, EventArgs e) //I changed the name of the button to "Login_bttn" in the designer file 
@@ -39,6 +39,7 @@ namespace RestaurantManagerSystem
             string empid = UserID_txtbox.Text.Trim();// Use trim to remove all leading and trailing whitespaces
             string password = Password_txt.Text.Trim();
 
+            //This dictionary is used to store the values that we will pass to the form based on ROLE
             Dictionary<string, string> role_value = new Dictionary<string, string>
             {
                 { "EmpID", empid },
@@ -59,8 +60,9 @@ namespace RestaurantManagerSystem
                 {
                     cmd.Parameters.AddWithValue("@empid", empid);
                     cmd.Parameters.AddWithValue("@Password", password);
-                    
 
+
+                    //this dictionary is used to store the values that we will pass to the main_employee form
                     Dictionary<string, string> value = new Dictionary<string, string>
                     {
                         { "EmpID", empid },
@@ -92,9 +94,11 @@ namespace RestaurantManagerSystem
                                 // Open the main employee form with the retrieved values
                                 if(roleName == "Admin") 
                                 {
+                                    //this is how to open a new form and close the current form
                                     main_employee mainEmployeeForm = new main_employee(value);
-                                    mainEmployeeForm.Show();
-                                    
+                                    this.Hide(); //Hide the login form
+                                    mainEmployeeForm.ShowDialog();
+                                    this.Close();// close the login form after main_employee is closed
                                 }
                                 else
                                 {
@@ -177,6 +181,14 @@ namespace RestaurantManagerSystem
         private void Login_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No)
+            {
+                e.Cancel = true; // Cancel the closing event
+            }
+            else
+            {
+                Application.Exit(); // Ensure the entire application exits
+            }
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
