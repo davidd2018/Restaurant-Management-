@@ -180,14 +180,10 @@ namespace RestaurantManagerSystem
 
         private void Login_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Bạn muốn thoát?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.No)
             {
-                e.Cancel = true; // Cancel the closing event
-            }
-            else
-            {
-                Application.Exit(); // Ensure the entire application exits
+                e.Cancel = true; // Cancel the form closing event
             }
         }
 
